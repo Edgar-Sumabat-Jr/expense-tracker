@@ -6,26 +6,43 @@ today = datetime.now().date()
 
 app = Flask(__name__)
 
+import sqlite3
+from flask import g
+
+DATABASE = 'storage.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
 @app.route("/")
 def show_table():
-    with sqlite3.connect("storage.db") as conn:
-        cursor = conn.cursor()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT name, amount, date, description FROM expense")
 
-        cursor.execute("SELECT name, amount, date, description FROM expense")
-        items = cursor.fetchall()
-        print(len(items))
+    items = cursor.fetchall()
+    print(len(items))
 
     return render_template("home.html", items=items)
 
 
 def insert_expense(name, amount, date, description):
-    with sqlite3.connect("storage.db") as conn:
-        cursor = conn.cursor()
+    db = get_db()
+    cursor = db.cursor()
 
-        cursor.execute("INSERT INTO expense (name, amount, date, description) VALUES (?, ?, ?, ?)",
-                       (name, amount, date.isoformat(), description))
+    cursor.execute("INSERT INTO expense (name, amount, date, description) VALUES (?, ?, ?, ?)",
+                    (name, amount, date.isoformat(), description))
 
-        conn.commit()
+    conn.commit()
 
 
 @app.route("/add", methods=["POST"])
@@ -60,13 +77,13 @@ def common_expense():
 
 @app.route("/total-expenses")
 def total_expenses():
-    with sqlite3.connect("storage.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT SUM(amount) FROM expense")
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT SUM(amount) FROM expense")
 
-        result = cursor.fetchone()
+    result = cursor.fetchone()
 
-        total_sum = result[0] if result[0] is not None else 0.0
+    total_sum = result[0] if result[0] is not None else 0.0
 
     return jsonify({"total": total_sum})
 
@@ -75,20 +92,20 @@ from datetime import datetime, timedelta
 def weekly_expenses():
     start_of_week = today - timedelta(days=today.weekday())
 
-    with sqlite3.connect("storage.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            SELECT SUM(amount)
-            FROM expense
-            WHERE date BETWEEN ? AND ?
-            """, (start_of_week, today)
-        )
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        """
+        SELECT SUM(amount)
+        FROM expense
+        WHERE date BETWEEN ? AND ?
+        """, (start_of_week, today)
+    )
 
-        total = cursor.fetchone()[0]
+    total = cursor.fetchone()[0]
 
-        if total is None:
-            total = 0.0
+    if total is None:
+        total = 0.0
 
     return jsonify({
         "today":today,
@@ -108,19 +125,19 @@ def monthly_expenses():
     start_of_month = date(year, month, 1).isoformat()
     end_of_month = date(year, month, last_day).isoformat()
 
-    with sqlite3.connect("storage.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            """                                      
-            SELECT SUM(amount)
-            FROM expense
-            WHERE date BETWEEN ? AND ?
-            """, (start_of_month, end_of_month)
-            )
-        total = cursor.fetchone()[0]
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        """                                      
+        SELECT SUM(amount)
+        FROM expense
+        WHERE date BETWEEN ? AND ?
+        """, (start_of_month, end_of_month)
+        )
+    total = cursor.fetchone()[0]
 
-        if total is None:
-            total = 0.0
+    if total is None:
+        total = 0.0
 
     return jsonify({
         "start_date":start_of_month,
