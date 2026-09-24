@@ -42,7 +42,7 @@ def insert_expense(name, amount, date, description):
     cursor.execute("INSERT INTO expense (name, amount, date, description) VALUES (?, ?, ?, ?)",
                     (name, amount, date.isoformat(), description))
 
-    conn.commit()
+    db.commit()
 
 
 @app.route("/add", methods=["POST"])
@@ -142,5 +142,34 @@ def monthly_expenses():
     return jsonify({
         "start_date":start_of_month,
         "end_date":end_of_month,
+        "total":total
+    })
+
+@app.route("/expenses/yearly")
+def yearly_expense():
+    year = date.today().year
+    month = date.today().month
+
+    start_of_year = date(year, 1, 1).isoformat()
+    end_of_year = date(year, 12, 31).isoformat()
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        """
+        SELECT SUM(amount)
+        FROM expense
+        WHERE date BETWEEN ? AND ?
+        """, (start_of_year, end_of_year)
+        )
+
+    total = cursor.fetchone()[0]
+
+    if total is None:
+        total = 0.0
+
+    return jsonify({
+        "start_of_year":start_of_year,
+        "end_of_year":end_of_year,
         "total":total
     })

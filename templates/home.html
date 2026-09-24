@@ -19,7 +19,7 @@
     <form method="POST" action="/add">
         <input name="expense-name" placeholder="what did you spend">
         <input name="amount" placeholder="amount here">
-        <input name="date" placeholder="date here optional">
+        <input name="date" placeholder="date here (optional)">
         <input name="description" placeholder="description here">
         <button type="submit">Enter</button>
     </form>
@@ -55,6 +55,19 @@
         })
         .then(data => {
             document.getElementById("monthly-expenses").textContent = data.total.toFixed(2);
+        })
+
+    </script>
+
+    <h1>Expenses this year: <span id="yearly-expenses"></span></h1>
+    <script>
+        fetch('/expenses/yearly')
+        .then(response =>{
+            if (!response.ok) throw new Error("HTTP" + response.status)
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("yearly-expenses").textContent = data.total.toFixed(2);
         })
 
     </script>
