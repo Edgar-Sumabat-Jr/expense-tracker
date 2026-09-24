@@ -1,0 +1,30 @@
+expense tracker:
+i want to track how much i spend
+
+it should run on mobile phones and should run offline
+should be low storage and not bloated
+
+i can add expense without needing to say what was spent on it
+or i can make a already clickable buttons that tracks my common expenses
+
+common expense:
+pamasahe papunta 20, 23 or 24
+pamasahe pauwi 13 or 15
+
+it should have dates
+example: september 2, 2026: 20 pesos
+
+total expense per week, month and year.
+
+i can also add income
+
+september 5 plan (not done):
+i need to create total of all the expenses (all time)
+################## done ########################
+
+
+september 20, 2026 things to add:
+expenses this week, month and year
+
+per week is: 1-7, 8-14, 15-21 22-28, 29-30 or 31
+start at 1st day of the month, regardless of what month it is, then keep going

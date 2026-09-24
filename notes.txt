@@ -1,0 +1,26 @@
+views talks to models,
+models are the database records
+views shouldn't touch SQL directly, the model should do that
+
+what i learned today september 5, 2026:
+to update a record in the database, you need to expose it on the internet
+using an api endpoint example: /add-expense
+POST is used to post new values, thats what i only used today
+and you need to create a function that connects to the database and
+sends the post to your route
+
+also for vanilla sqlite3 python and flask
+for every post function that you will do you need to connect first to the database
+this is called the connection or conn as we are using in the code
+
+then intialize your cursor, cursor is the one that talks to the database
+then to add data to your rows you need to cursor.execute("INSERT INTO")
+or cursor.execute("SELECT from") etc
+after that you need to commit or save your work using cursor.commit()
+
+IMPORTANT what i learned the best was to use a helper function that does the connection
+to the database, calls the cursor.execute() and calls cursor.commit()
+
+the request.form is used because it is simpler and we are just using basic html
+and we are not sending json
+

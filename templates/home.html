@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+
+<body>
+    <h1>EXPENSE TRACKER:</h1>
+    <form method="POST" action="/add">
+        <input name="expense-name" placeholder="what did you spend">
+        <input name="amount" placeholder="amount here">
+        <input name="date" placeholder="date here optional">
+        <input name="description" placeholder="description here">
+        <button type="submit">Enter</button>
+    </form>
+
+    <h1>common expense</h1>
+    <form method="POST" action="/add-common">
+        <button type="submit" name="common-expense" value="20">20 student</button>
+        <button type="submit" name="common-expense" value="23">23 non student</button>
+        <button type="submit" name="common-expense" value="24">24 e jeep</button>
+        <button type="submit" name="common-expense" value="13">13 jeep to school</button>
+        <button type="submit" name="common-expense" value="15">15 jeep to school non student</button>
+    </form>
+
+    <h1>Expenses this week: <span id="weekly-expenses"></span></h1>
+    <script>
+        fetch('/expenses/weekly')
+        .then(response =>{
+            if (!response.ok) throw new Error("HTTP" + response.status)
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("weekly-expenses").textContent = data.total.toFixed(2);
+        })
+
+    </script>
+
+    <h1>Expenses this month: <span id="monthly-expenses"></span></h1>
+    <script>
+        fetch('/expenses/monthly')
+        .then(response =>{
+            if (!response.ok) throw new Error("HTTP" + response.status)
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("monthly-expenses").textContent = data.total.toFixed(2);
+        })
+
+    </script>
+
+    <h1>Summary</h1>
+    <table border="2">
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>description</th>
+        {% for item in items %}
+        <tr>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            <td>{{item[3]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h1>Total expenses all time: <span id="total-expenses"></span></h1>
+        <script>
+            fetch('/total-expenses')
+            .then(response => {
+                if(!response.ok) throw new Error("HTTP" + response.status)
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("total-expenses").textContent = data.total.toFixed(2);
+            })
+            .catch(error => {
+                console.error("Error fetching total_sum:", error);
+                document.getElementById("total-expenses").textContent = "Error loading";
+            })
+
+        </script>
+</body>
+</html>

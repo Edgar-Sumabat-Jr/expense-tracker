@@ -1,0 +1,1 @@
+expense tracker with a bit of help from ai
