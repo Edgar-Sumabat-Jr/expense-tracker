@@ -9,7 +9,7 @@ app = Flask(__name__)
 import sqlite3
 from flask import g
 
-DATABASE = 'storage.db'
+DATABASE = 'expenses.db'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -173,3 +173,29 @@ def yearly_expense():
         "end_of_year":end_of_year,
         "total":total
     })
+
+@app.route("/common-expenses/add", methods=["POST"])
+def add_common_expense():
+    common_expense = request.form.get("add-common-expense")
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        """
+        INSERT INTO 
+        """)
+
+
+# @app.route("/add-common", methods=["POST"])
+# def common_expense():
+#     amount = float(request.form["common-expense"]) # we used the value="20" at the html frontend
+
+#     insert_expense(
+#         "pamasahe",
+#         amount,
+#         today,
+#         "pamasahe to"
+#     )
+
+#     return redirect("/")
+
+    return render_template("")

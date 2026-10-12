@@ -28,3 +28,6 @@ expenses this week, month and year
 
 per week is: 1-7, 8-14, 15-21 22-28, 29-30 or 31
 start at 1st day of the month, regardless of what month it is, then keep going
+
+october 12, 2026 TODO:
+add/edit/delete common expenses

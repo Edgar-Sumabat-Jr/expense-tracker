@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="/static/script.js" defer></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+
 </head>
 
 <style>
@@ -24,7 +32,39 @@
         <button type="submit">Enter</button>
     </form>
 
-    <h1>common expense</h1>
+    <h1>common expense 
+        <span>
+            <button id="add-common">add</button>
+            <input
+                type="text"
+                name="name-common-expense"
+                class="hidden common-input"
+                placeholder="name common expense"
+                >
+
+            <input
+                type="text"
+                name="amount-common-expense"
+                class="hidden common-input"
+                placeholder="amount common expense"
+                >
+
+            <input
+                type="text"
+                name="descript-common-expense"
+                class="hidden common-input"
+                placeholder="description common expense"
+                >
+            <button type="submit">Enter</button>
+
+            <!-- <button id="edit-common">add</button>
+            <input type="text" id="edit-common-input" class="hidden" placeholder="edit common expense">
+
+            <button id="delete-common">add</button>
+            <input type="text" id="delete-common-input" class="hidden" placeholder="delete common expense"> -->
+        </span>
+    </h1>
+
     <form method="POST" action="/add-common">
         <button type="submit" name="common-expense" value="20">20 student</button>
         <button type="submit" name="common-expense" value="23">23 non student</button>
@@ -34,43 +74,8 @@
     </form>
 
     <h1>Expenses this week: <span id="weekly-expenses"></span></h1>
-    <script>
-        fetch('/expenses/weekly')
-        .then(response =>{
-            if (!response.ok) throw new Error("HTTP" + response.status)
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById("weekly-expenses").textContent = data.total.toFixed(2);
-        })
-
-    </script>
-
     <h1>Expenses this month: <span id="monthly-expenses"></span></h1>
-    <script>
-        fetch('/expenses/monthly')
-        .then(response =>{
-            if (!response.ok) throw new Error("HTTP" + response.status)
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById("monthly-expenses").textContent = data.total.toFixed(2);
-        })
-
-    </script>
-
     <h1>Expenses this year: <span id="yearly-expenses"></span></h1>
-    <script>
-        fetch('/expenses/yearly')
-        .then(response =>{
-            if (!response.ok) throw new Error("HTTP" + response.status)
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById("yearly-expenses").textContent = data.total.toFixed(2);
-        })
-
-    </script>
 
     <h1>Summary</h1>
     <table border="2">
@@ -89,20 +94,6 @@
     </table>
 
     <h1>Total expenses all time: <span id="total-expenses"></span></h1>
-        <script>
-            fetch('/total-expenses')
-            .then(response => {
-                if(!response.ok) throw new Error("HTTP" + response.status)
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById("total-expenses").textContent = data.total.toFixed(2);
-            })
-            .catch(error => {
-                console.error("Error fetching total_sum:", error);
-                document.getElementById("total-expenses").textContent = "Error loading";
-            })
 
-        </script>
 </body>
 </html>
