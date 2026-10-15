@@ -33,30 +33,26 @@
     </form>
 
     <h1>common expense 
-        <span>
-            <button id="add-common">add</button>
-            <input
+        <form id="common-expense-form" action="/add-common" method="POST">
+            <span>
+                <button type="button" id="add-common">add</button>
+                <input
                 type="text"
                 name="name-common-expense"
                 class="hidden common-input"
                 placeholder="name common expense"
                 >
 
-            <input
+                <input
                 type="text"
                 name="amount-common-expense"
                 class="hidden common-input"
                 placeholder="amount common expense"
                 >
 
-            <input
-                type="text"
-                name="descript-common-expense"
-                class="hidden common-input"
-                placeholder="description common expense"
-                >
-            <button type="submit">Enter</button>
-
+                <button type="submit">Enter</button>
+            </form>
+                
             <!-- <button id="edit-common">add</button>
             <input type="text" id="edit-common-input" class="hidden" placeholder="edit common expense">
 

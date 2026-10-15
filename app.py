@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
 from datetime import datetime, date
+import logging
+
 
 today = datetime.now().date()
 
@@ -174,15 +176,22 @@ def yearly_expense():
         "total":total
     })
 
+
+
 @app.route("/common-expenses/add", methods=["POST"])
 def add_common_expense():
-    common_expense = request.form.get("add-common-expense")
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute(
-        """
-        INSERT INTO 
-        """)
+    name_expense = request.form.get("name-common-expense")
+    amount_expense = request.form.get("amount-common-expense")
+    description_expense = request.form.get("description-common-expense")
+
+    insert_expense(
+        name_expense,
+        amount_expense,
+        today,
+        description_expense
+    )
+
+    return redirect("/")
 
 
 # @app.route("/add-common", methods=["POST"])
@@ -190,12 +199,10 @@ def add_common_expense():
 #     amount = float(request.form["common-expense"]) # we used the value="20" at the html frontend
 
 #     insert_expense(
-#         "pamasahe",
-#         amount,
-#         today,
-#         "pamasahe to"
+#         "pamasahe", # name of expense
+#         amount,     # amount
+#         today,      # date today
+#         "pamasahe to" # description (optional)
 #     )
 
 #     return redirect("/")
-
-    return render_template("")

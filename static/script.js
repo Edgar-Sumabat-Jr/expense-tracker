@@ -45,6 +45,7 @@ function getExpensesAllTime() {
 function addCommonExpense() {
     const button = document.querySelector("#add-common");
     const inputs = document.querySelectorAll(".common-input");
+    const expenseForm = document.getElementById("common-expense-form")
 
     button.addEventListener('click', function() {
         button.classList.add("hidden");
@@ -55,33 +56,49 @@ function addCommonExpense() {
         inputs[0].focus();
     });
 
+    expenseForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const expenseName = document.querySelector('[name="name-common-expense"]').value
+        const expenseAmount = document.querySelector('[name="amount-common-expense"]').value
+        const newButton = document.createElement("button");
+    
+        newButton.type = "submit";
+        newButton.name = "common-expense";
+        newButton.value = expenseAmount;
+        newButton.innerText = `${expenseAmount} ${expenseName}`; // text that appears in the button
+
+        expenseForm.appendChild(newButton)
+
+    })
+
 
 }
 
-function editCommonExpense() {
-    const button = document.getElementById("edit-common");
-    const input = document.getElementById("edit-common-input");
+// function editCommonExpense() {
+//     const button = document.getElementById("edit-common");
+//     const input = document.getElementById("edit-common-input");
 
-    button.addEventListener('click', function() {
-        button.classList.add("hidden");
-        input.classList.remove("hidden");
-        input.focus();
-    });
-}
+//     button.addEventListener('click', function() {
+//         button.classList.add("hidden");
+//         input.classList.remove("hidden");
+//         input.focus();
+//     });
+// }
 
-function deleteCommonExpense() {
-    const button = document.getElementById("delete-common");
-    const input = document.getElementById("delete-common-input");
+// function deleteCommonExpense() {
+//     const button = document.getElementById("delete-common");
+//     const input = document.getElementById("delete-common-input");
 
-    button.addEventListener('click', function() {
-        button.classList.add("hidden");
-        input.classList.remove("hidden");
-        input.focus();
-    });
-}
+//     button.addEventListener('click', function() {
+//         button.classList.add("hidden");
+//         input.classList.remove("hidden");
+//         input.focus();
+//     });
+// }
 
 loadExpensesByPeriod();
 getExpensesAllTime();
 addCommonExpense();
-editCommonExpense();
-deleteCommonExpense();
+// editCommonExpense();
+// deleteCommonExpense();

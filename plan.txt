@@ -31,3 +31,6 @@ start at 1st day of the month, regardless of what month it is, then keep going
 
 october 12, 2026 TODO:
 add/edit/delete common expenses
+
+October 15, 2026 TODO:
+when i click enter it should add the common expense
