@@ -20,6 +20,12 @@
         flex-direction: column;
         align-items: center;
     }
+
+    #common-expense-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px; /* Adds consistent spacing between all buttons */
+    }
 </style>
 
 <body>
@@ -33,35 +39,24 @@
     </form>
 
     <h1>common expense 
-        <form id="common-expense-form" action="/add-common" method="POST">
-            <span>
-                <button type="button" id="add-common">add</button>
-                <input
-                type="text"
-                name="name-common-expense"
-                class="hidden common-input"
-                placeholder="name common expense"
-                >
+        <button type="button" id="add-common">add</button>
+            <input
+            type="text"
+            name="name-common-expense"
+            class="hidden common-input"
+            placeholder="name common expense"
+            >
 
-                <input
-                type="text"
-                name="amount-common-expense"
-                class="hidden common-input"
-                placeholder="amount common expense"
-                >
-
-                <button type="submit">Enter</button>
-            </form>
-                
-            <!-- <button id="edit-common">add</button>
-            <input type="text" id="edit-common-input" class="hidden" placeholder="edit common expense">
-
-            <button id="delete-common">add</button>
-            <input type="text" id="delete-common-input" class="hidden" placeholder="delete common expense"> -->
-        </span>
+            <input
+            type="text"
+            name="amount-common-expense"
+            class="hidden common-input"
+            placeholder="amount common expense"
+            >
+        <button type="submit" id="enter-common">Enter</button>
     </h1>
 
-    <form method="POST" action="/add-common">
+    <form id="common-expense-form" method="POST" action="/add-common">
         <button type="submit" name="common-expense" value="20">20 student</button>
         <button type="submit" name="common-expense" value="23">23 non student</button>
         <button type="submit" name="common-expense" value="24">24 e jeep</button>

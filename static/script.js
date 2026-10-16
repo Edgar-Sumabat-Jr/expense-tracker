@@ -46,6 +46,7 @@ function addCommonExpense() {
     const button = document.querySelector("#add-common");
     const inputs = document.querySelectorAll(".common-input");
     const expenseForm = document.getElementById("common-expense-form")
+    const enterButton = document.querySelector("#enter-common")
 
     button.addEventListener('click', function() {
         button.classList.add("hidden");
@@ -56,23 +57,28 @@ function addCommonExpense() {
         inputs[0].focus();
     });
 
-    expenseForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        const expenseName = document.querySelector('[name="name-common-expense"]').value
+    enterButton.addEventListener('click', () => {
+        const expenseName = document.querySelector('[name="name-common-expense"]').value.trim()
         const expenseAmount = document.querySelector('[name="amount-common-expense"]').value
+        
+        if (!expenseName || !expenseAmount) {
+            return;
+        }
+
         const newButton = document.createElement("button");
-    
         newButton.type = "submit";
         newButton.name = "common-expense";
         newButton.value = expenseAmount;
         newButton.innerText = `${expenseAmount} ${expenseName}`; // text that appears in the button
 
+
         expenseForm.appendChild(newButton)
+        
+        inputs.forEach(input => {
+            input.value = "";
+        })
 
     })
-
-
 }
 
 // function editCommonExpense() {
