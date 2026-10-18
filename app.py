@@ -73,20 +73,6 @@ def add_expense():
     )
     return redirect("/")
 
-
-@app.route("/add-common", methods=["POST"])
-def common_expense():
-    amount = float(request.form["common-expense"]) # we used the value="20" at the html frontend
-
-    insert_expense(
-        "pamasahe",
-        amount,
-        today,
-        "pamasahe to"
-    )
-
-    return redirect("/")
-
 @app.route("/total-expenses")
 def total_expenses():
     db = get_db()
@@ -217,8 +203,8 @@ def add_common_expense():
 
 #     return redirect("/")
 
-@app.route("/add-common-test", methods=["POST"])
-def common_expense_test():
+@app.route("/add-common", methods=["POST"])
+def insert_common_expense():
     name = request.form.get("custom-name")
     amount = float(request.form.get("custom-amount"))
     today = datetime.now().date()
@@ -230,5 +216,12 @@ def common_expense_test():
                     (name, amount, today.isoformat()))
 
     db.commit()
+
+    insert_expense(
+        name,
+        amount,
+        today,
+        "common expense"
+    )
 
     return redirect("/")
