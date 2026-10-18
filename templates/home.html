@@ -53,12 +53,12 @@
             class="hidden common-input"
             placeholder="amount common expense"
             >
-        <button action="/add-common" type="submit" id="enter-common">Enter</button>
+        <button type="button" id="enter-common">Enter</button>
     </h1>
 
     <form id="common-expense-form" method="POST" action="/add-common">
         {% for item in common_expenses %}
-            <button>{{ item[1] }} {{ item[0] }}</button>
+            <button type="submit">{{ item[1] }} {{ item[0] }}</button>
         {% endfor %}
         <!-- <button type="submit" name="common-expense" value="20">20 student</button>
         <button type="submit" name="common-expense" value="23">23 non student</button>

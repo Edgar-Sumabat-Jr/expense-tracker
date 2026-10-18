@@ -174,20 +174,20 @@ def yearly_expense():
 
 
 
-@app.route("/common-expenses/add", methods=["POST"])
-def add_common_expense():
-    name_expense = request.form.get("name-common-expense")
-    amount_expense = request.form.get("amount-common-expense")
-    description_expense = request.form.get("description-common-expense")
+# @app.route("/common-expenses/add", methods=["POST"])
+# def add_common_expense():
+#     name_expense = request.form.get("name-common-expense")
+#     amount_expense = request.form.get("amount-common-expense")
+#     description_expense = request.form.get("description-common-expense")
 
-    insert_expense(
-        name_expense,
-        amount_expense,
-        today,
-        description_expense
-    )
+#     insert_expense(
+#         name_expense,
+#         amount_expense,
+#         today,
+#         description_expense
+#     )
 
-    return redirect("/")
+#     return redirect("/")
 
 
 # @app.route("/add-common", methods=["POST"])
@@ -203,10 +203,12 @@ def add_common_expense():
 
 #     return redirect("/")
 
-@app.route("/add-common", methods=["POST"])
+@app.route("/insert-common", methods=["POST"])
 def insert_common_expense():
-    name = request.form.get("custom-name")
-    amount = float(request.form.get("custom-amount"))
+    json_data = request.get_json()
+
+    name = json_data.get("name")
+    amount = json_data.get("amount")
     today = datetime.now().date()
     
     db = get_db()
@@ -217,6 +219,14 @@ def insert_common_expense():
 
     db.commit()
 
+    return redirect("/")
+
+@app.route("/add-common", methods=["POST"])
+def add_common_expense():
+    name = request.form.get("custom-name")
+    amount = request.form.get("custom-amount")
+    today = datetime.now().date()
+    
     insert_expense(
         name,
         amount,

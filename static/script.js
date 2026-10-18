@@ -83,6 +83,34 @@ function addCommonExpense() {
     })
 }
 
+function enterCommon() { 
+    const enterButton = document.getElementById("enter-common"); 
+    
+    enterButton.addEventListener("click", async () => { 
+        const name = document.querySelector('[name="name-common-expense"]').value.trim(); 
+        const amount = document.querySelector('[name="amount-common-expense"]').value; 
+        const dataToSend = { name: name, amount: amount }; 
+        
+        try { 
+            const response = await fetch("http://127.0.0.1:5000/insert-common", { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify(dataToSend) 
+            }); 
+            
+            if (response.ok) { 
+                window.location.reload();
+                alert("POST request success"); 
+            } else { 
+                alert("something errored"); 
+            } 
+        } catch (error) { 
+            console.error("POST error:", error); 
+        } 
+    });
+}
+
 loadExpensesByPeriod();
 getExpensesAllTime();
 addCommonExpense();
+enterCommon();
