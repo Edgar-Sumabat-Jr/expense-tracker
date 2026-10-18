@@ -70,7 +70,9 @@ function addCommonExpense() {
         newButton.name = "common-expense";
         newButton.value = expenseAmount;
         newButton.innerText = `${expenseAmount} ${expenseName}`; // text that appears in the button
-
+        
+        document.querySelector('[name="custom-name"]').value = expenseName;
+        document.querySelector('[name="custom-amount"]').value = expenseAmount;
 
         expenseForm.appendChild(newButton)
         
@@ -81,30 +83,6 @@ function addCommonExpense() {
     })
 }
 
-// function editCommonExpense() {
-//     const button = document.getElementById("edit-common");
-//     const input = document.getElementById("edit-common-input");
-
-//     button.addEventListener('click', function() {
-//         button.classList.add("hidden");
-//         input.classList.remove("hidden");
-//         input.focus();
-//     });
-// }
-
-// function deleteCommonExpense() {
-//     const button = document.getElementById("delete-common");
-//     const input = document.getElementById("delete-common-input");
-
-//     button.addEventListener('click', function() {
-//         button.classList.add("hidden");
-//         input.classList.remove("hidden");
-//         input.focus();
-//     });
-// }
-
 loadExpensesByPeriod();
 getExpensesAllTime();
 addCommonExpense();
-// editCommonExpense();
-// deleteCommonExpense();

@@ -29,12 +29,22 @@ def close_connection(exception):
 def show_table():
     db = get_db()
     cursor = db.cursor()
+
     cursor.execute("SELECT name, amount, date, description FROM expense")
-
     items = cursor.fetchall()
-    print(len(items))
 
-    return render_template("home.html", items=items)
+
+    cursor.execute("SELECT name, amount, date FROM common_expense")
+    common_expenses = cursor.fetchall()
+
+    return render_template(
+            # table for expenses
+            "home.html", 
+            items=items,
+
+            # common expenses
+            common_expenses=common_expenses
+        )
 
 
 def insert_expense(name, amount, date, description):
@@ -206,3 +216,19 @@ def add_common_expense():
 #     )
 
 #     return redirect("/")
+
+@app.route("/add-common-test", methods=["POST"])
+def common_expense_test():
+    name = request.form.get("custom-name")
+    amount = float(request.form.get("custom-amount"))
+    today = datetime.now().date()
+    
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("INSERT INTO common_expense (name, amount, date) VALUES (?, ?, ?)",
+                    (name, amount, today.isoformat()))
+
+    db.commit()
+
+    return redirect("/")

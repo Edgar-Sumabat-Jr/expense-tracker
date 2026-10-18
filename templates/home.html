@@ -38,7 +38,7 @@
         <button type="submit">Enter</button>
     </form>
 
-    <h1>common expense 
+    <h1>common expense
         <button type="button" id="add-common">add</button>
             <input
             type="text"
@@ -48,20 +48,27 @@
             >
 
             <input
-            type="text"
+            type="number"
             name="amount-common-expense"
             class="hidden common-input"
             placeholder="amount common expense"
             >
-        <button type="submit" id="enter-common">Enter</button>
+        <button action="/add-common-test" type="submit" id="enter-common">Enter</button>
     </h1>
 
-    <form id="common-expense-form" method="POST" action="/add-common">
-        <button type="submit" name="common-expense" value="20">20 student</button>
+    <form id="common-expense-form" method="POST" action="/add-common-test">
+        {% for item in common_expenses %}
+            <button>{{ item[1] }} {{ item[0] }}</button>
+        {% endfor %}
+        <!-- <button type="submit" name="common-expense" value="20">20 student</button>
         <button type="submit" name="common-expense" value="23">23 non student</button>
         <button type="submit" name="common-expense" value="24">24 e jeep</button>
         <button type="submit" name="common-expense" value="13">13 jeep to school</button>
-        <button type="submit" name="common-expense" value="15">15 jeep to school non student</button>
+        <button type="submit" name="common-expense" value="15">15 jeep to school non student</button> -->
+
+        <input type="hidden" name="custom-name">
+        <input type="hidden" name="custom-amount">
+
     </form>
 
     <h1>Expenses this week: <span id="weekly-expenses"></span></h1>
@@ -85,6 +92,26 @@
     </table>
 
     <h1>Total expenses all time: <span id="total-expenses"></span></h1>
+
+
+<h1>Common Expenses</h1>
+
+<table border="2">
+    <th>Name</th>
+    <th>Amount</th>
+    <th>Date</th>
+
+    {% for item in common_expenses %}
+    <button>{{ item[1] }} {{ item[0] }}</button>
+
+    <tr>
+        <td>{{ item[0] }}</td>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 
 </body>
 </html>
