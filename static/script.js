@@ -88,19 +88,29 @@ function enterCommon() {
     
     enterButton.addEventListener("click", async () => { 
         const name = document.querySelector('[name="name-common-expense"]').value.trim(); 
-        const amount = document.querySelector('[name="amount-common-expense"]').value; 
-        const dataToSend = { name: name, amount: amount }; 
+        const amount = Number(document.querySelector('[name="amount-common-expense"]').value);
+
+        console.log(Number.isInteger(amount) ? amount : amount.toFixed(2));
         
+        // checks for empty values
+        if (!name || !amount) {
+            alert("empty name and amount field")
+            return;
+        }
+
         try { 
-            const response = await fetch("http://127.0.0.1:5000/insert-common", { 
+            const response = await fetch("/insert-common", { 
                 method: "POST", 
                 headers: { "Content-Type": "application/json" }, 
-                body: JSON.stringify(dataToSend) 
+                body: JSON.stringify({
+                    name: name,
+                    amount: amount
+                }) 
             }); 
             
             if (response.ok) { 
+                alert("Common expense saved"); 
                 window.location.reload();
-                alert("POST request success"); 
             } else { 
                 alert("something errored"); 
             } 
