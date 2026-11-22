@@ -70,6 +70,7 @@ function addCommonExpense() {
         newButton.name = "common-expense";
         newButton.value = expenseAmount;
         newButton.innerText = `${expenseAmount} ${expenseName}`; // text that appears in the button
+        newButton.className = "common-expense-class"
         
         document.querySelector('[name="custom-name"]').value = expenseName;
         document.querySelector('[name="custom-amount"]').value = expenseAmount;
@@ -120,7 +121,52 @@ function enterCommon() {
     });
 }
 
-loadExpensesByPeriod();
+function deleteCommon() {
+    const deleteToggleBtn = document.getElementById("delete-common-btn");
+    const expenseForm = document.getElementById("common-expense-form");
+    let isDeleteMode = false;
+
+    // 1. Toggle Delete Mode when the "Delete" button is clicked
+    deleteToggleBtn.addEventListener("click", () => {
+        isDeleteMode = !isDeleteMode;
+        deleteToggleBtn.innerText = isDeleteMode ? "Done Deleting" : "Delete";
+        deleteToggleBtn.style.backgroundColor = isDeleteMode ? "#ff4d4d" : "";
+    });
+
+    // 2. Intercept clicks on the common expense buttons
+    expenseForm.addEventListener("click", async (event) => {
+        const button = event.target.closest(".common-expense-class");
+        
+        // Only delete if Delete Mode is turned ON
+        if (button && isDeleteMode) {
+            event.preventDefault(); // Stops POST /add-common from running
+
+            const expenseName = button.value; // Gets {{ item[0] }}
+
+            // Optional: Send request to backend to delete from DB too
+            try {
+                const response = await fetch("/delete-common", {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: expenseName })
+                });
+
+                if (response.ok) {
+                    button.remove(); // Removes button from screen
+                }
+                else {
+                    alert("failed to remove button")
+                }
+
+            } catch (error) {
+                console.error("Failed to delete from DB:", error);
+            }
+        }
+    });
+}
+
+loadExpensesByPeriod(); 
 getExpensesAllTime();
 addCommonExpense();
 enterCommon();
+deleteCommon();

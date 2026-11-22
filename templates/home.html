@@ -40,7 +40,7 @@
 
 
     <h1>Common Expense Buttons
-        <button type="button" id="add-common">add</button>
+        <button type="button" id="add-common">Add</button>
             <input
             type="text"
             name="name-common-expense"
@@ -55,10 +55,14 @@
             placeholder="amount common expense"
             >
         <button type="button" id="enter-common">Enter</button>
+        
+        <!-- delete common expense button -->
+        <button type="button" id="delete-common-btn">Delete</button>
     </h1>
 
+    
 
-    <!-- start, form for clicking existing common expense -->
+    <!-- start: form for clicking existing common expense -->
     <form id="common-expense-form" method="POST" action="/add-common">
 
         {% for item in common_expenses %}
@@ -66,6 +70,7 @@
                 type="submit"
                 name="common-expense"
                 value="{{ item[0] }}"
+                class="common-expense-class"
             >
                 {{ "%g"|format(item[1]) }} {{ item[0] }}
             </button>
@@ -99,7 +104,6 @@
         </tr>
         {% endfor %}
     </table>
-
 
 </body>
 </html>

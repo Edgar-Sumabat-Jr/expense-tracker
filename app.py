@@ -254,3 +254,16 @@ def add_common_expense():
     )
 
     return redirect("/")
+
+@app.delete("/delete-common")
+def delete_common_expense():
+    json_data = request.get_json()
+    name = json_data.get("name")
+    
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("DELETE FROM common_expense WHERE name = ?", (name,))
+    db.commit()
+
+    return {"success":"True"}, 201
