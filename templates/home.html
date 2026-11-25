@@ -89,21 +89,27 @@
     <h1>Total expenses all time: <span id="total-expenses"></span></h1>
 
 
-    <h1>Summary</h1>
+    <h1>
+        Summary
+        <button type="submit" id="delete-table">Clear Table</button>
+    </h1> 
     <table border="2">
         <th>Name</th>
         <th>Amount</th>
         <th>Date</th>
-        <th>description</th>
+        <th>Description</th>
+        <th>Delete</th>
         {% for item in items %}
         <tr>
-            <td>{{item[0]}}</td> 
-            <td>{{item[1]}}</td>
-            <td>{{ datetime.strptime(item[2], "%Y-%m-%d").strftime("%m-%d-%Y") }}</td>
-            <td>{{item[3]}}</td>
+            <td>{{item[1]}}</td> 
+            <td>{{item[2]}}</td>
+            <td>{{ datetime.strptime(item[3], "%Y-%m-%d").strftime("%m-%d-%Y") }}</td>
+            <td>{{item[4]}}</td>
+            <td><button class="delete-table-row" type="submit" data-id="{{ item[0] }}">delete</button></td>
         </tr>
         {% endfor %}
     </table>
+
 
 </body>
 </html>

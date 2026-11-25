@@ -165,8 +165,68 @@ function deleteCommon() {
     });
 }
 
+function deleteTable() {
+    const deleteButton = document.getElementById("delete-table")
+
+    deleteButton.addEventListener("click", async () => {
+        const confirmDelete = confirm("Delete all expenses?")
+        
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+        const response = await fetch("/delete-table", {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error("Can't delete table, there is an error");
+        }
+        
+        console.log("Table deleted successfully");
+
+        window.location.reload();
+
+
+        } catch (error) {
+        console.error("Failed to delete:", error.message);
+        }
+    });
+}
+
+function deleteTableRow() {
+    const deleteButtons = document.querySelectorAll(".delete-table-row")
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", async () => {
+            event.preventDefault();
+
+            const id = button.dataset.id
+            
+            try {
+                const response = await fetch(`/delete-table-row/${id}`, {
+                    method: "DELETE",
+                });
+                
+                if(!response.ok) {
+                    throw new Error("Failed to delete row");
+                }
+                
+                button.closest("tr").remove();
+            }
+
+            catch (error) {
+                console.error("Failed to Delete Row", error.message);
+            }
+        });   
+    });        
+}
+
 loadExpensesByPeriod(); 
 getExpensesAllTime();
 addCommonExpense();
 enterCommon();
 deleteCommon();
+deleteTable();
+deleteTableRow();

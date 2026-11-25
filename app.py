@@ -33,7 +33,7 @@ def show_table():
     db = get_db()
     cursor = db.cursor()
 
-    cursor.execute("SELECT name, amount, date, description FROM expense")
+    cursor.execute("SELECT id, name, amount, date, description FROM expense")
     items = cursor.fetchall()
 
 
@@ -267,3 +267,28 @@ def delete_common_expense():
     db.commit()
 
     return {"success":"True"}, 201
+
+@app.delete("/delete-table")
+def delete_table():
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("DELETE FROM expense")
+    db.commit()
+
+    return "", 204
+
+
+@app.delete("/delete-table-row/<int:id>")
+def delete_table_row(id):
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("DELETE FROM expense WHERE id = ?", (id, ))
+    db.commit()
+
+    if cursor.rowcount == 0:
+        return {"error": "Expense not found"}, 404
+
+    return "", 204
+    

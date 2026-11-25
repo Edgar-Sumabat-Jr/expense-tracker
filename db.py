@@ -2,6 +2,7 @@ import sqlite3
 
 database = "expenses.db"
 create_table = (""" CREATE TABLE IF NOT EXISTS expense (
+                    id INTEGER PRIMARY KEY,
                     name TEXT NOT NULL,
                     amount REAL NOT NULL,
                     date TEXT,
